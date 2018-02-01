@@ -7,8 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "PMStudent.h"
+#import <MapKit/MapKit.h>
 
 @interface ViewController ()
+
+@property (strong, nonatomic) NSMutableArray *studentsArray;
 
 @end
 
@@ -16,7 +20,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.studentsArray = [NSMutableArray array];
+    NSInteger count = arc4random() % 31 + 10;
+    
+    for (int i = 0; i < count; i++) {
+        [self.studentsArray addObject: [PMStudent randomStudent]];
+    }
 }
 
 

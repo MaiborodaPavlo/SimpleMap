@@ -13,6 +13,8 @@
 		E91123BA2023022C003DC9D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E91123B92023022C003DC9D5 /* Assets.xcassets */; };
 		E91123BD2023022C003DC9D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E91123BB2023022C003DC9D5 /* LaunchScreen.storyboard */; };
 		E91123C02023022C003DC9D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123BF2023022C003DC9D5 /* main.m */; };
+		E91123C820230405003DC9D5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E91123C720230405003DC9D5 /* MapKit.framework */; };
+		E91123CB20230446003DC9D5 /* PMStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123CA20230446003DC9D5 /* PMStudent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,9 @@
 		E91123BC2023022C003DC9D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E91123BE2023022C003DC9D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E91123BF2023022C003DC9D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E91123C720230405003DC9D5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		E91123C920230446003DC9D5 /* PMStudent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PMStudent.h; sourceTree = "<group>"; };
+		E91123CA20230446003DC9D5 /* PMStudent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PMStudent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E91123C820230405003DC9D5 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +50,7 @@
 			children = (
 				E91123AF2023022C003DC9D5 /* SimpleMap */,
 				E91123AE2023022C003DC9D5 /* Products */,
+				E91123C620230405003DC9D5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +65,8 @@
 		E91123AF2023022C003DC9D5 /* SimpleMap */ = {
 			isa = PBXGroup;
 			children = (
+				E91123C920230446003DC9D5 /* PMStudent.h */,
+				E91123CA20230446003DC9D5 /* PMStudent.m */,
 				E91123B02023022C003DC9D5 /* AppDelegate.h */,
 				E91123B12023022C003DC9D5 /* AppDelegate.m */,
 				E91123B32023022C003DC9D5 /* ViewController.h */,
@@ -69,6 +78,14 @@
 				E91123BF2023022C003DC9D5 /* main.m */,
 			);
 			path = SimpleMap;
+			sourceTree = "<group>";
+		};
+		E91123C620230405003DC9D5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E91123C720230405003DC9D5 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +161,7 @@
 			files = (
 				E91123B52023022C003DC9D5 /* ViewController.m in Sources */,
 				E91123C02023022C003DC9D5 /* main.m in Sources */,
+				E91123CB20230446003DC9D5 /* PMStudent.m in Sources */,
 				E91123B22023022C003DC9D5 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
