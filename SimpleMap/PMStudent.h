@@ -7,13 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreLocation/CLLocation.h>
+#import <MapKit/MapKit.h>
 
-@interface PMStudent : NSObject
+typedef enum {
+    PMGenderMale,
+    PMGenderFemale
+} PMGender;
+
+@interface PMStudent : NSObject <MKAnnotation>
 
 @property (strong, nonatomic) NSString *firstName;
 @property (strong, nonatomic) NSString *lastName;
+@property (assign, nonatomic) NSDate *dateOfBirthday;
+@property (assign, nonatomic) PMGender gender;
+
 @property (assign, nonatomic) CLLocationCoordinate2D coordinate;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *subtitle;
+
+@property (strong, nonatomic) UIImage *image;
 
 + (PMStudent *) randomStudent;
 

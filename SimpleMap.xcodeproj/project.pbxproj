@@ -9,12 +9,15 @@
 /* Begin PBXBuildFile section */
 		E91123B22023022C003DC9D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123B12023022C003DC9D5 /* AppDelegate.m */; };
 		E91123B52023022C003DC9D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123B42023022C003DC9D5 /* ViewController.m */; };
-		E91123B82023022C003DC9D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E91123B62023022C003DC9D5 /* Main.storyboard */; };
+		E91123B82023022C003DC9D5 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E91123B62023022C003DC9D5 /* Main_iPhone.storyboard */; };
 		E91123BA2023022C003DC9D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E91123B92023022C003DC9D5 /* Assets.xcassets */; };
 		E91123BD2023022C003DC9D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E91123BB2023022C003DC9D5 /* LaunchScreen.storyboard */; };
 		E91123C02023022C003DC9D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123BF2023022C003DC9D5 /* main.m */; };
 		E91123C820230405003DC9D5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E91123C720230405003DC9D5 /* MapKit.framework */; };
 		E91123CB20230446003DC9D5 /* PMStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123CA20230446003DC9D5 /* PMStudent.m */; };
+		E91123CE20230F72003DC9D5 /* NSDate+RandomDate.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123CD20230F72003DC9D5 /* NSDate+RandomDate.m */; };
+		E91123D020231002003DC9D5 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E91123CF20231002003DC9D5 /* Main_iPad.storyboard */; };
+		E91123D2202352BE003DC9D5 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = E91123D1202352BD003DC9D5 /* Images */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +26,7 @@
 		E91123B12023022C003DC9D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E91123B32023022C003DC9D5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		E91123B42023022C003DC9D5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		E91123B72023022C003DC9D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E91123B72023022C003DC9D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		E91123B92023022C003DC9D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E91123BC2023022C003DC9D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E91123BE2023022C003DC9D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -31,6 +34,10 @@
 		E91123C720230405003DC9D5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E91123C920230446003DC9D5 /* PMStudent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PMStudent.h; sourceTree = "<group>"; };
 		E91123CA20230446003DC9D5 /* PMStudent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PMStudent.m; sourceTree = "<group>"; };
+		E91123CC20230F72003DC9D5 /* NSDate+RandomDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+RandomDate.h"; sourceTree = "<group>"; };
+		E91123CD20230F72003DC9D5 /* NSDate+RandomDate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RandomDate.m"; sourceTree = "<group>"; };
+		E91123CF20231002003DC9D5 /* Main_iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
+		E91123D1202352BD003DC9D5 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,17 +72,21 @@
 		E91123AF2023022C003DC9D5 /* SimpleMap */ = {
 			isa = PBXGroup;
 			children = (
+				E91123D1202352BD003DC9D5 /* Images */,
 				E91123C920230446003DC9D5 /* PMStudent.h */,
 				E91123CA20230446003DC9D5 /* PMStudent.m */,
 				E91123B02023022C003DC9D5 /* AppDelegate.h */,
 				E91123B12023022C003DC9D5 /* AppDelegate.m */,
 				E91123B32023022C003DC9D5 /* ViewController.h */,
 				E91123B42023022C003DC9D5 /* ViewController.m */,
-				E91123B62023022C003DC9D5 /* Main.storyboard */,
+				E91123B62023022C003DC9D5 /* Main_iPhone.storyboard */,
+				E91123CF20231002003DC9D5 /* Main_iPad.storyboard */,
 				E91123B92023022C003DC9D5 /* Assets.xcassets */,
 				E91123BB2023022C003DC9D5 /* LaunchScreen.storyboard */,
 				E91123BE2023022C003DC9D5 /* Info.plist */,
 				E91123BF2023022C003DC9D5 /* main.m */,
+				E91123CC20230F72003DC9D5 /* NSDate+RandomDate.h */,
+				E91123CD20230F72003DC9D5 /* NSDate+RandomDate.m */,
 			);
 			path = SimpleMap;
 			sourceTree = "<group>";
@@ -146,9 +157,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E91123D2202352BE003DC9D5 /* Images in Resources */,
 				E91123BD2023022C003DC9D5 /* LaunchScreen.storyboard in Resources */,
+				E91123D020231002003DC9D5 /* Main_iPad.storyboard in Resources */,
 				E91123BA2023022C003DC9D5 /* Assets.xcassets in Resources */,
-				E91123B82023022C003DC9D5 /* Main.storyboard in Resources */,
+				E91123B82023022C003DC9D5 /* Main_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +172,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E91123CE20230F72003DC9D5 /* NSDate+RandomDate.m in Sources */,
 				E91123B52023022C003DC9D5 /* ViewController.m in Sources */,
 				E91123C02023022C003DC9D5 /* main.m in Sources */,
 				E91123CB20230446003DC9D5 /* PMStudent.m in Sources */,
@@ -169,12 +183,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E91123B62023022C003DC9D5 /* Main.storyboard */ = {
+		E91123B62023022C003DC9D5 /* Main_iPhone.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E91123B72023022C003DC9D5 /* Base */,
 			);
-			name = Main.storyboard;
+			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		E91123BB2023022C003DC9D5 /* LaunchScreen.storyboard */ = {
