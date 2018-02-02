@@ -1,5 +1,5 @@
 //
-//  PMMeatingAnnotation.h
+//  PMMeetingAnnotation.h
 //  SimpleMap
 //
 //  Created by Pavel on 02.02.2018.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MKAnnotation.h>
 
-@interface PMMeatingAnnotation : NSObject <MKAnnotation>
+@interface PMMeetingAnnotation : NSObject <MKAnnotation>
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy, nullable) NSString *title;

@@ -20,7 +20,7 @@
 		E91123D2202352BE003DC9D5 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = E91123D1202352BD003DC9D5 /* Images */; };
 		E91123D5202458D3003DC9D5 /* UIView+MKAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123D4202458D3003DC9D5 /* UIView+MKAnnotationView.m */; };
 		E91123D820245CD5003DC9D5 /* PMDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123D720245CD4003DC9D5 /* PMDetailsViewController.m */; };
-		E91123DB202474BC003DC9D5 /* PMMeatingAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123DA202474BC003DC9D5 /* PMMeatingAnnotation.m */; };
+		E91123DB202474BC003DC9D5 /* PMMeetingAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123DA202474BC003DC9D5 /* PMMeetingAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,8 +45,8 @@
 		E91123D4202458D3003DC9D5 /* UIView+MKAnnotationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+MKAnnotationView.m"; sourceTree = "<group>"; };
 		E91123D620245CD4003DC9D5 /* PMDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PMDetailsViewController.h; sourceTree = "<group>"; };
 		E91123D720245CD4003DC9D5 /* PMDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PMDetailsViewController.m; sourceTree = "<group>"; };
-		E91123D9202474BC003DC9D5 /* PMMeatingAnnotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PMMeatingAnnotation.h; sourceTree = "<group>"; };
-		E91123DA202474BC003DC9D5 /* PMMeatingAnnotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PMMeatingAnnotation.m; sourceTree = "<group>"; };
+		E91123D9202474BC003DC9D5 /* PMMeetingAnnotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PMMeetingAnnotation.h; sourceTree = "<group>"; };
+		E91123DA202474BC003DC9D5 /* PMMeetingAnnotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PMMeetingAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,8 +88,8 @@
 				E91123B12023022C003DC9D5 /* AppDelegate.m */,
 				E91123B32023022C003DC9D5 /* ViewController.h */,
 				E91123B42023022C003DC9D5 /* ViewController.m */,
-				E91123D9202474BC003DC9D5 /* PMMeatingAnnotation.h */,
-				E91123DA202474BC003DC9D5 /* PMMeatingAnnotation.m */,
+				E91123D9202474BC003DC9D5 /* PMMeetingAnnotation.h */,
+				E91123DA202474BC003DC9D5 /* PMMeetingAnnotation.m */,
 				E91123D620245CD4003DC9D5 /* PMDetailsViewController.h */,
 				E91123D720245CD4003DC9D5 /* PMDetailsViewController.m */,
 				E91123B62023022C003DC9D5 /* Main_iPhone.storyboard */,
@@ -192,7 +192,7 @@
 				E91123B52023022C003DC9D5 /* ViewController.m in Sources */,
 				E91123D5202458D3003DC9D5 /* UIView+MKAnnotationView.m in Sources */,
 				E91123C02023022C003DC9D5 /* main.m in Sources */,
-				E91123DB202474BC003DC9D5 /* PMMeatingAnnotation.m in Sources */,
+				E91123DB202474BC003DC9D5 /* PMMeetingAnnotation.m in Sources */,
 				E91123CB20230446003DC9D5 /* PMStudent.m in Sources */,
 				E91123B22023022C003DC9D5 /* AppDelegate.m in Sources */,
 			);

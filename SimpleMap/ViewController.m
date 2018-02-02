@@ -11,7 +11,7 @@
 #import <MapKit/MapKit.h>
 #import "UIView+MKAnnotationView.h"
 #import "PMDetailsViewController.h"
-#import "PMMeatingAnnotation.h"
+#import "PMMeetingAnnotation.h"
 
 @interface ViewController () <MKMapViewDelegate, UIPopoverPresentationControllerDelegate>
 
@@ -20,14 +20,25 @@
 
 @property (strong, nonatomic) UIPopoverPresentationController *popover;
 
+@property (weak, nonatomic) IBOutlet UILabel *smallLabel;
+@property (weak, nonatomic) IBOutlet UILabel *midleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *largeLabel;
+@property (weak, nonatomic) IBOutlet UIView *distanceView;
 
 
 @end
+
+static const double smallCircle = 500.f;
+static const double midleCircle = 1000.f;
+static const double largeCircle = 1500.f;
+
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.distanceView.hidden = YES;
     
     self.studentsArray = [NSMutableArray array];
     NSInteger count = arc4random() % 31 + 10;
@@ -43,7 +54,7 @@
     
     UIBarButtonItem *addMeatingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemAction
                                                                                target: self
-                                                                               action: @selector(actionAddMeating:)];
+                                                                               action: @selector(actionAddMeeting:)];
     
     self.navigationItem.rightBarButtonItems = @[addButton, addMeatingButton];
     
@@ -64,19 +75,60 @@
 
 #pragma mark - Hekp Methods
 
+- (void) addCirclesOnMapView: (MKMapView *) mapView  toAnnotationView: (MKAnnotationView *) annotationView {
+    
+    MKCircle *circle1 = [MKCircle circleWithCenterCoordinate: annotationView.annotation.coordinate radius: smallCircle];
+    MKCircle *circle2 = [MKCircle circleWithCenterCoordinate: annotationView.annotation.coordinate radius: midleCircle];
+    MKCircle *circle3 = [MKCircle circleWithCenterCoordinate: annotationView.annotation.coordinate radius: largeCircle];
+
+    [mapView addOverlays: @[circle1, circle2, circle3]];
+}
+
+- (void) calculateDistanceToAnnotation: (id <MKAnnotation>) annotation {
+    
+    CLLocation *meetingLocation = [[CLLocation alloc] initWithLatitude: annotation.coordinate.latitude
+                                                             longitude: annotation.coordinate.longitude];
+    
+    int smallCount, midleCount, largeCount;
+    smallCount = midleCount = largeCount = 0;
+    
+    for (PMStudent *student in self.studentsArray) {
+        
+        CLLocation *studentLocation = [[CLLocation alloc] initWithLatitude: student.coordinate.latitude
+                                                                 longitude: student.coordinate.longitude];
+        
+        double distance = [meetingLocation distanceFromLocation: studentLocation];
+        
+        if (distance <= smallCircle) {
+            smallCount++;
+        } else if (distance <= midleCircle) {
+            midleCount++;
+        } else if (distance <= largeCircle) {
+            largeCount++;
+        }
+    }
+    
+    self.smallLabel.text = [NSString stringWithFormat: @"%d", smallCount];
+    self.midleLabel.text = [NSString stringWithFormat: @"%d", midleCount];
+    self.largeLabel.text = [NSString stringWithFormat: @"%d", largeCount];
+}
 
 
 #pragma mark - Actions
 
-- (void) actionAddMeating: (UIBarButtonItem *) sender {
+- (void) actionAddMeeting: (UIBarButtonItem *) sender {
     
-    PMMeatingAnnotation *annotation = [[PMMeatingAnnotation alloc] init];
+    PMMeetingAnnotation *annotation = [[PMMeetingAnnotation alloc] init];
     
     annotation.title = @"Meating";
-    annotation.subtitle = @"Subtitle";
+    annotation.subtitle = @"Meet here";
     annotation.coordinate = self.mapView.region.center;
     
     [self.mapView addAnnotation: annotation];
+    
+    [self calculateDistanceToAnnotation: annotation];
+    
+    self.distanceView.hidden = NO;
     
 }
 
@@ -203,11 +255,13 @@
             annotationView = [[MKAnnotationView alloc] initWithAnnotation: annotation reuseIdentifier: identifier];
             annotationView.image = [UIImage imageNamed: @"Images/meating.png"];
             
-            annotationView.canShowCallout = NO;
+            annotationView.canShowCallout = YES;
             annotationView.draggable = YES;
         } else {
             annotationView.annotation = annotation;
         }
+        
+        [self addCirclesOnMapView: mapView toAnnotationView: annotationView];
         
         return annotationView;
     }
@@ -215,10 +269,32 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView: (MKAnnotationView *) view didChangeDragState:(MKAnnotationViewDragState) newState fromOldState: (MKAnnotationViewDragState) oldState {
     
+    if (newState == MKAnnotationViewDragStateStarting) {
+        [mapView removeOverlays: mapView.overlays];
+    }
+    
     if (newState == MKAnnotationViewDragStateEnding) {
         
+        [self addCirclesOnMapView: mapView toAnnotationView: view];
+        
+        [self calculateDistanceToAnnotation: view.annotation];
+
         [view setDragState: MKAnnotationViewDragStateNone animated: YES];
     }
+}
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id <MKOverlay>)overlay  {
+    
+    if ([overlay isKindOfClass:[MKCircle class]]) {
+        
+        MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithOverlay: overlay];
+        renderer.lineWidth = 1.2f;
+        renderer.strokeColor = [UIColor colorWithRed: 0.f green: 0.5f blue: 1.f alpha: 1.f];
+        renderer.fillColor = [UIColor colorWithRed: 0.f green: 0.5f blue: 1.f alpha: 0.2f];
+        
+        return renderer;
+    }
+    return nil;
 }
 
 #pragma mark - UIPopoverPresentationControllerDelegate

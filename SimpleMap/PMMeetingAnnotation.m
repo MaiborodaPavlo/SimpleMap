@@ -1,13 +1,13 @@
 //
-//  PMMeatingAnnotation.m
+//  PMMeetingAnnotation.m
 //  SimpleMap
 //
 //  Created by Pavel on 02.02.2018.
 //  Copyright © 2018 Pavel Maiboroda. All rights reserved.
 //
 
-#import "PMMeatingAnnotation.h"
+#import "PMMeetingAnnotation.h"
 
-@implementation PMMeatingAnnotation 
+@implementation PMMeetingAnnotation 
 
 @end
