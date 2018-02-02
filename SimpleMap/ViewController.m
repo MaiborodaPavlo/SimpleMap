@@ -16,7 +16,10 @@
 @interface ViewController () <MKMapViewDelegate, UIPopoverPresentationControllerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *studentsArray;
+@property (strong, nonatomic) id <MKAnnotation> meetingAnnotation;
+
 @property (strong, nonatomic) CLGeocoder *geoCoder;
+@property (strong, nonatomic) MKDirections *directions;
 
 @property (strong, nonatomic) UIPopoverPresentationController *popover;
 
@@ -31,7 +34,6 @@
 static const double smallCircle = 500.f;
 static const double midleCircle = 1000.f;
 static const double largeCircle = 1500.f;
-
 
 @implementation ViewController
 
@@ -56,15 +58,27 @@ static const double largeCircle = 1500.f;
                                                                                target: self
                                                                                action: @selector(actionAddMeeting:)];
     
-    self.navigationItem.rightBarButtonItems = @[addButton, addMeatingButton];
+    UIBarButtonItem *goToMeatingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemPlay
+                                                                                      target: self
+                                                                                      action: @selector(actionGoToMeeting:)];
+    
+    self.navigationItem.rightBarButtonItems = @[addButton, addMeatingButton, goToMeatingButton];
+    
+    addMeatingButton.enabled = NO;
+    goToMeatingButton.enabled = NO;
     
     self.geoCoder = [[CLGeocoder alloc] init];
+    
 }
 
 - (void)dealloc
 {
     if ([self.geoCoder isGeocoding]) {
         [self.geoCoder cancelGeocode];
+    }
+    
+    if ([self.directions isCalculating]) {
+        [self.directions cancel];
     }
 }
 
@@ -73,7 +87,7 @@ static const double largeCircle = 1500.f;
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Hekp Methods
+#pragma mark - Help Methods
 
 - (void) addCirclesOnMapView: (MKMapView *) mapView  toAnnotationView: (MKAnnotationView *) annotationView {
     
@@ -106,6 +120,8 @@ static const double largeCircle = 1500.f;
         } else if (distance <= largeCircle) {
             largeCount++;
         }
+        
+        student.distance = distance;
     }
     
     self.smallLabel.text = [NSString stringWithFormat: @"%d", smallCount];
@@ -113,11 +129,84 @@ static const double largeCircle = 1500.f;
     self.largeLabel.text = [NSString stringWithFormat: @"%d", largeCount];
 }
 
+- (BOOL) randomBoolWithYesPercentage: (int) percentage {
+    int rand = arc4random() % 101;
+    NSLog(@"%i < %i", rand, percentage);
+    return rand < percentage;
+}
 
 #pragma mark - Actions
 
+- (void) actionGoToMeeting: (UIBarButtonItem *) sender {
+ 
+    if ([self.directions isCalculating]) {
+        [self.directions cancel];
+    }
+    
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+    
+    MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate: self.meetingAnnotation.coordinate];
+    request.source = [[MKMapItem alloc] initWithPlacemark: sourcePlacemark];
+    
+    for (PMStudent *student in self.studentsArray) {
+        
+        BOOL isGoing = NO;
+        
+        if (student.distance == 0) {
+            continue;
+        } else {
+            if (student.distance <= smallCircle) {
+                isGoing = [self randomBoolWithYesPercentage: 90];
+            } else if (student.distance <= midleCircle) {
+                isGoing = [self randomBoolWithYesPercentage: 50];
+            } else if (student.distance <= largeCircle) {
+                isGoing = [self randomBoolWithYesPercentage: 10];
+            } else {
+                isGoing = [self randomBoolWithYesPercentage: 1];
+            }
+        }
+        
+        if (isGoing) {
+            MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate: student.coordinate];
+            request.destination = [[MKMapItem alloc] initWithPlacemark: destinationPlacemark];
+            
+            request.transportType = MKDirectionsTransportTypeAny;
+            request.requestsAlternateRoutes = YES;
+            
+            self.directions = [[MKDirections alloc] initWithRequest: request];
+            
+            [self.directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse * _Nullable response, NSError * _Nullable error) {
+                
+                if (error) {
+                    NSLog(@"Error: %@", [error localizedDescription]);
+                } else if ([response.routes count] == 0) {
+                    NSLog(@"Error: No routes found");
+                } else {
+                    
+                    NSMutableArray *array = [NSMutableArray array];
+                    
+                    for (MKRoute *route in response.routes) {
+                        [array addObject: route.polyline];
+                    }
+                    
+                    [self.mapView addOverlays: array level: MKOverlayLevelAboveLabels];
+                }
+            }];
+            
+            
+            
+        } else {
+            
+            [[self.mapView viewForAnnotation: student] setAlpha: 0.5f];
+            NSLog(@"%@ NOT going", student.title);
+        }
+    }
+}
+
 - (void) actionAddMeeting: (UIBarButtonItem *) sender {
     
+    [[self.navigationItem.rightBarButtonItems objectAtIndex: 2] setEnabled: YES];
+
     PMMeetingAnnotation *annotation = [[PMMeetingAnnotation alloc] init];
     
     annotation.title = @"Meating";
@@ -126,6 +215,8 @@ static const double largeCircle = 1500.f;
     
     [self.mapView addAnnotation: annotation];
     
+    self.meetingAnnotation = annotation;
+    
     [self calculateDistanceToAnnotation: annotation];
     
     self.distanceView.hidden = NO;
@@ -133,6 +224,8 @@ static const double largeCircle = 1500.f;
 }
 
 - (void) actionAdd: (UIBarButtonItem *) sender {
+    
+    [[self.navigationItem.rightBarButtonItems objectAtIndex: 1] setEnabled: YES];
     
     for (PMStudent *student in self.studentsArray) {
         [self.mapView addAnnotation: student];
@@ -263,6 +356,8 @@ static const double largeCircle = 1500.f;
         
         [self addCirclesOnMapView: mapView toAnnotationView: annotationView];
         
+        annotationView.highlighted = YES;
+        
         return annotationView;
     }
 }
@@ -271,6 +366,10 @@ static const double largeCircle = 1500.f;
     
     if (newState == MKAnnotationViewDragStateStarting) {
         [mapView removeOverlays: mapView.overlays];
+        
+        for (PMStudent *student in self.studentsArray) {
+            [[self.mapView viewForAnnotation: student] setAlpha: 1.f];
+        }
     }
     
     if (newState == MKAnnotationViewDragStateEnding) {
@@ -291,6 +390,14 @@ static const double largeCircle = 1500.f;
         renderer.lineWidth = 1.2f;
         renderer.strokeColor = [UIColor colorWithRed: 0.f green: 0.5f blue: 1.f alpha: 1.f];
         renderer.fillColor = [UIColor colorWithRed: 0.f green: 0.5f blue: 1.f alpha: 0.2f];
+        
+        return renderer;
+        
+    } else if ([overlay isKindOfClass:[MKPolyline class]]) {
+        
+        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay: overlay];
+        renderer.lineWidth = 2.f;
+        renderer.strokeColor = [UIColor colorWithRed: 0.f green: 1.f blue: 0.5f alpha: 0.9f];
         
         return renderer;
     }

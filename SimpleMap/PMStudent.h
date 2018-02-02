@@ -27,6 +27,8 @@ typedef enum {
 
 @property (strong, nonatomic) UIImage *image;
 
+@property (assign, nonatomic) double distance;
+
 + (PMStudent *) randomStudent;
 
 @end

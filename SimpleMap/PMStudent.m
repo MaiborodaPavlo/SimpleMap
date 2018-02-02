@@ -8,6 +8,7 @@
 
 #import "PMStudent.h"
 #import "NSDate+RandomDate.h"
+#import "ViewController.h"
 
 @implementation PMStudent
 
@@ -60,6 +61,8 @@ static double cityLongitude = 36.2527200;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle: NSDateFormatterShortStyle];
     student.subtitle = [dateFormatter stringFromDate: student.dateOfBirthday];
+    
+    student.distance = 0;
     
     return student;
 }
