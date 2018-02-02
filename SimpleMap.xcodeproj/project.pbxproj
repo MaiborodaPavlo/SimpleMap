@@ -18,6 +18,8 @@
 		E91123CE20230F72003DC9D5 /* NSDate+RandomDate.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123CD20230F72003DC9D5 /* NSDate+RandomDate.m */; };
 		E91123D020231002003DC9D5 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E91123CF20231002003DC9D5 /* Main_iPad.storyboard */; };
 		E91123D2202352BE003DC9D5 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = E91123D1202352BD003DC9D5 /* Images */; };
+		E91123D5202458D3003DC9D5 /* UIView+MKAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123D4202458D3003DC9D5 /* UIView+MKAnnotationView.m */; };
+		E91123D820245CD5003DC9D5 /* PMDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E91123D720245CD4003DC9D5 /* PMDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,10 @@
 		E91123CD20230F72003DC9D5 /* NSDate+RandomDate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RandomDate.m"; sourceTree = "<group>"; };
 		E91123CF20231002003DC9D5 /* Main_iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
 		E91123D1202352BD003DC9D5 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
+		E91123D3202458D3003DC9D5 /* UIView+MKAnnotationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+MKAnnotationView.h"; sourceTree = "<group>"; };
+		E91123D4202458D3003DC9D5 /* UIView+MKAnnotationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+MKAnnotationView.m"; sourceTree = "<group>"; };
+		E91123D620245CD4003DC9D5 /* PMDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PMDetailsViewController.h; sourceTree = "<group>"; };
+		E91123D720245CD4003DC9D5 /* PMDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PMDetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,8 @@
 				E91123B12023022C003DC9D5 /* AppDelegate.m */,
 				E91123B32023022C003DC9D5 /* ViewController.h */,
 				E91123B42023022C003DC9D5 /* ViewController.m */,
+				E91123D620245CD4003DC9D5 /* PMDetailsViewController.h */,
+				E91123D720245CD4003DC9D5 /* PMDetailsViewController.m */,
 				E91123B62023022C003DC9D5 /* Main_iPhone.storyboard */,
 				E91123CF20231002003DC9D5 /* Main_iPad.storyboard */,
 				E91123B92023022C003DC9D5 /* Assets.xcassets */,
@@ -87,6 +95,8 @@
 				E91123BF2023022C003DC9D5 /* main.m */,
 				E91123CC20230F72003DC9D5 /* NSDate+RandomDate.h */,
 				E91123CD20230F72003DC9D5 /* NSDate+RandomDate.m */,
+				E91123D3202458D3003DC9D5 /* UIView+MKAnnotationView.h */,
+				E91123D4202458D3003DC9D5 /* UIView+MKAnnotationView.m */,
 			);
 			path = SimpleMap;
 			sourceTree = "<group>";
@@ -172,8 +182,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E91123D820245CD5003DC9D5 /* PMDetailsViewController.m in Sources */,
 				E91123CE20230F72003DC9D5 /* NSDate+RandomDate.m in Sources */,
 				E91123B52023022C003DC9D5 /* ViewController.m in Sources */,
+				E91123D5202458D3003DC9D5 /* UIView+MKAnnotationView.m in Sources */,
 				E91123C02023022C003DC9D5 /* main.m in Sources */,
 				E91123CB20230446003DC9D5 /* PMStudent.m in Sources */,
 				E91123B22023022C003DC9D5 /* AppDelegate.m in Sources */,

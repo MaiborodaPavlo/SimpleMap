@@ -9,10 +9,17 @@
 #import "ViewController.h"
 #import "PMStudent.h"
 #import <MapKit/MapKit.h>
+#import "UIView+MKAnnotationView.h"
+#import "PMDetailsViewController.h"
 
-@interface ViewController () <MKMapViewDelegate>
+@interface ViewController () <MKMapViewDelegate, UIPopoverPresentationControllerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *studentsArray;
+@property (strong, nonatomic) CLGeocoder *geoCoder;
+
+@property (strong, nonatomic) UIPopoverPresentationController *popover;
+
+
 
 @end
 
@@ -33,18 +40,29 @@
                                                                                target: self
                                                                                action: @selector(actionAdd:)];
     
-    UIBarButtonItem *zoomButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemSearch
-                                                                                target: self
-                                                                                action: @selector(actionShowAll:)];
+    self.navigationItem.rightBarButtonItem = addButton;
     
-    self.navigationItem.rightBarButtonItems = @[zoomButton, addButton];
-    
+    self.geoCoder = [[CLGeocoder alloc] init];
 }
 
+- (void)dealloc
+{
+    if ([self.geoCoder isGeocoding]) {
+        [self.geoCoder cancelGeocode];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Hekp Methods
+
+- (void) showViewControllerAsPopover: (UIViewController *) vc fromSender: (UIButton *) sender {
+    
+    
+    
 }
 
 #pragma mark - Actions
@@ -54,10 +72,8 @@
     for (PMStudent *student in self.studentsArray) {
         [self.mapView addAnnotation: student];
     }
-}
-
-- (void) actionShowAll: (UIBarButtonItem *) sender {
     
+    //ZOOM
     MKMapRect zoomRect = MKMapRectNull;
     
     for (id <MKAnnotation> annotation in self.mapView.annotations) {
@@ -77,6 +93,66 @@
     [self.mapView setVisibleMapRect: zoomRect
                         edgePadding: UIEdgeInsetsMake(20, 20, 20, 20)
                            animated: YES];
+}
+
+- (void) actionDescription: (UIButton *) sender {
+    
+    MKAnnotationView *annotationView = [sender superAnnotationView];
+
+    if (!annotationView) {
+        return;
+    }
+    
+    CLLocationCoordinate2D coordinate = annotationView.annotation.coordinate;
+    CLLocation *location = [[CLLocation alloc] initWithLatitude: coordinate.latitude
+                                                      longitude: coordinate.longitude];
+    
+    if ([self.geoCoder isGeocoding]) {
+        [self.geoCoder cancelGeocode];
+    }
+    
+    PMDetailsViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier: @"PMDetailsViewController"];
+    
+    vc.preferredContentSize = CGSizeMake(300, 350);
+    vc.modalPresentationStyle = UIModalPresentationPopover;
+    self.popover = vc.popoverPresentationController;
+    self.popover.delegate = self;
+    self.popover.sourceView = sender;
+    self.popover.sourceRect = sender.frame;
+    
+    [self.geoCoder reverseGeocodeLocation: location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+        } else {
+            if ([placemarks count] > 0) {
+                
+                CLPlacemark *placeMark = [placemarks firstObject];
+                
+                vc.city = [NSString stringWithFormat:@"%@", placeMark.locality];
+                vc.country = [NSString stringWithFormat:@"%@", placeMark.country];
+                if (placeMark.thoroughfare != NULL && placeMark.subThoroughfare != NULL) {
+                    vc.address = [NSString stringWithFormat:@"%@, %@", placeMark.thoroughfare, placeMark.subThoroughfare];
+                } else if(placeMark.thoroughfare != NULL) {
+                    vc.address = [NSString stringWithFormat:@"%@", placeMark.thoroughfare];
+                }
+            } else {
+                NSLog(@"No Placemarks found");
+            }
+        }
+        
+        vc.name = annotationView.annotation.title;
+        vc.birth = annotationView.annotation.subtitle;
+        
+        for (PMStudent *student in self.studentsArray) {
+            if ([student isEqual: annotationView.annotation]) {
+                vc.gender = student.gender ? @"Female" : @"Male";
+            }
+        }
+        
+        [self presentViewController: vc animated: YES completion: nil];
+        
+    }];
 }
 
 #pragma mark - MKMapViewDelegate
@@ -99,7 +175,22 @@
         annotationView.annotation = annotation;
     }
     
+    UIButton *descriptionButton = [UIButton buttonWithType: UIButtonTypeDetailDisclosure];
+    [descriptionButton addTarget: self action: @selector(actionDescription:) forControlEvents: UIControlEventTouchUpInside];
+    annotationView.rightCalloutAccessoryView = descriptionButton;
+    
     return annotationView;
 }
 
+#pragma mark - UIPopoverPresentationControllerDelegate
+
+- (void) popoverPresentationControllerDidDismissPopover: (UIPopoverPresentationController *) popoverPresentationController {
+    
+    self.popover = nil;
+}
+
+- (UIModalPresentationStyle) adaptivePresentationStyleForPresentationController: (UIPresentationController *) controller {
+    
+    return UIModalPresentationNone;
+}
 @end
