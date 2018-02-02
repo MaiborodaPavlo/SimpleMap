@@ -11,6 +11,7 @@
 #import <MapKit/MapKit.h>
 #import "UIView+MKAnnotationView.h"
 #import "PMDetailsViewController.h"
+#import "PMMeatingAnnotation.h"
 
 @interface ViewController () <MKMapViewDelegate, UIPopoverPresentationControllerDelegate>
 
@@ -40,7 +41,11 @@
                                                                                target: self
                                                                                action: @selector(actionAdd:)];
     
-    self.navigationItem.rightBarButtonItem = addButton;
+    UIBarButtonItem *addMeatingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemAction
+                                                                               target: self
+                                                                               action: @selector(actionAddMeating:)];
+    
+    self.navigationItem.rightBarButtonItems = @[addButton, addMeatingButton];
     
     self.geoCoder = [[CLGeocoder alloc] init];
 }
@@ -59,13 +64,21 @@
 
 #pragma mark - Hekp Methods
 
-- (void) showViewControllerAsPopover: (UIViewController *) vc fromSender: (UIButton *) sender {
-    
-    
-    
-}
+
 
 #pragma mark - Actions
+
+- (void) actionAddMeating: (UIBarButtonItem *) sender {
+    
+    PMMeatingAnnotation *annotation = [[PMMeatingAnnotation alloc] init];
+    
+    annotation.title = @"Meating";
+    annotation.subtitle = @"Subtitle";
+    annotation.coordinate = self.mapView.region.center;
+    
+    [self.mapView addAnnotation: annotation];
+    
+}
 
 - (void) actionAdd: (UIBarButtonItem *) sender {
     
@@ -161,25 +174,51 @@
     
     if ([annotation isKindOfClass: [MKUserLocation class]]) {
         return nil;
-    }
-    
-    static NSString *identifier = @"Annotation";
-    
-    MKAnnotationView *annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier: identifier];
-    
-    if (!annotationView) {
-        annotationView = [[MKAnnotationView alloc] initWithAnnotation: annotation reuseIdentifier: identifier];
-        annotationView.image = [(PMStudent *)annotation image];
-        annotationView.canShowCallout = YES;
+    } else if ([annotation isKindOfClass: [PMStudent class]]) {
+        
+        static NSString *identifier = @"Annotation";
+        
+        MKAnnotationView *annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier: identifier];
+        
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation: annotation reuseIdentifier: identifier];
+            annotationView.image = [(PMStudent *)annotation image];
+            annotationView.canShowCallout = YES;
+        } else {
+            annotationView.annotation = annotation;
+        }
+        
+        UIButton *descriptionButton = [UIButton buttonWithType: UIButtonTypeDetailDisclosure];
+        [descriptionButton addTarget: self action: @selector(actionDescription:) forControlEvents: UIControlEventTouchUpInside];
+        annotationView.rightCalloutAccessoryView = descriptionButton;
+        
+        return annotationView;
     } else {
-        annotationView.annotation = annotation;
+        
+        static NSString *identifier = @"Meating";
+        
+        MKAnnotationView *annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier: identifier];
+        
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation: annotation reuseIdentifier: identifier];
+            annotationView.image = [UIImage imageNamed: @"Images/meating.png"];
+            
+            annotationView.canShowCallout = NO;
+            annotationView.draggable = YES;
+        } else {
+            annotationView.annotation = annotation;
+        }
+        
+        return annotationView;
     }
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView: (MKAnnotationView *) view didChangeDragState:(MKAnnotationViewDragState) newState fromOldState: (MKAnnotationViewDragState) oldState {
     
-    UIButton *descriptionButton = [UIButton buttonWithType: UIButtonTypeDetailDisclosure];
-    [descriptionButton addTarget: self action: @selector(actionDescription:) forControlEvents: UIControlEventTouchUpInside];
-    annotationView.rightCalloutAccessoryView = descriptionButton;
-    
-    return annotationView;
+    if (newState == MKAnnotationViewDragStateEnding) {
+        
+        [view setDragState: MKAnnotationViewDragStateNone animated: YES];
+    }
 }
 
 #pragma mark - UIPopoverPresentationControllerDelegate
